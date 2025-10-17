@@ -1,0 +1,233 @@
+/* === OVERLAY === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 26, 43, 0.75); /* Dark semi-transparent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+/* === MODAL BOX === */
+.modal-content {
+  background-color: #111a2b;
+  color: #cfd8f5;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+  animation: slideIn 0.25s ease;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* === Modal Header for Welcome Message === */
+.modal-header {
+  margin-bottom: 1.5rem;
+  padding-right: 3rem; /* prevent overlap with close button */
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #cfd8f5;
+  margin-bottom: 0.5rem;
+  word-break: break-word;
+}
+
+.modal-header p {
+  font-size: 1rem;
+  color: #cfd8f5;
+  margin-top: 0;
+  word-break: break-word;
+}
+
+/* === CLOSE BUTTON === */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #7f8ca3;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  z-index: 10;
+  user-select: none;
+}
+
+.close-btn:hover {
+  color: #abbbdd;
+}
+
+.close-btn:focus {
+  outline: 3px solid #abbbdd;
+  outline-offset: 2px;
+}
+
+/* === PRIMARY CTA BUTTON === */
+.primary-btn {
+  background-color: #abbbdd;
+  color: #111a2b;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  user-select: none;
+}
+
+.primary-btn:hover {
+  background-color: #26395e;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.primary-btn:focus {
+  outline: 3px solid #abbbdd;
+  outline-offset: 2px;
+}
+
+/* === INPUT GROUP === */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.input-group label {
+  margin-bottom: 0.5rem;
+  color: #a0aec0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.input-group input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  background-color: #1a2338;
+  color: #cfd8f5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.input-group input::placeholder {
+  color: #7f8ca3;
+  opacity: 1;
+}
+
+.input-group input:focus {
+  border-color: #abbbdd;
+  box-shadow: 0 0 0 2px #abbbdd;
+  outline: none;
+  background-color: #202b47;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* === Responsive Typography in Modal === */
+@media (max-width: 768px) {
+  .modal-content {
+    font-size: 0.95rem;
+  }
+
+  .input-group label {
+    font-size: 0.85rem;
+  }
+
+  .primary-btn {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    font-size: 0.9rem;
+    padding: 1.5rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-header p {
+    font-size: 0.9rem;
+  }
+
+  .modal-header {
+    padding-right: 2.5rem;
+  }
+
+  .close-btn {
+    font-size: 1.3rem;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .input-group label {
+    font-size: 0.8rem;
+  }
+
+  .primary-btn {
+    font-size: 0.9rem;
+    padding: 0.65rem 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .modal-header h2 {
+    font-size: 1rem;
+  }
+
+  .modal-header p {
+    font-size: 0.85rem;
+  }
+
+  .modal-header {
+    padding-right: 2rem;
+  }
+
+  .close-btn {
+    font-size: 1.1rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}

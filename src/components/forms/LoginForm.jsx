@@ -22,11 +22,12 @@ function LoginForm() {
     const [userName, setUserName] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [errors, setErrors] = useState({}); // for Yup validation errors
-    const { login, error, setError, loading } = useAuth();
+    const { login, error, setError } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
+    const [loginInProgress, setLoginInProgress] = useState(false); //local loading state
     const nav = useNavigate();
 
-
+    //clear auth errors on input focus
     const clearAuthError = () => {
         if (error) {
             setError(null);
@@ -63,12 +64,18 @@ function LoginForm() {
                 { abortEarly: false }
             );
 
+            setLoginInProgress(true);   //start loading
+
             const success = await login(sanitizedUserName, sanitizedUserPassword);
 
+            setLoginInProgress(false); //end loading
             if (success) {
                 nav("/home");
             }
         } catch (validationError) {
+
+            setLoginInProgress(false); //end login loading on validation erros
+
             // Collect all field level errors
             const validationErrors = {};
             validationError.inner.forEach((error) => {
@@ -94,6 +101,7 @@ function LoginForm() {
                     aria-describedby="userName-error"
                     autoComplete="username"
                     autoFocus
+                    disabled={loginInProgress}
                 />
             </div>
             {errors.userName && (
@@ -114,6 +122,7 @@ function LoginForm() {
                     aria-invalid={!!errors.userPassword}
                     aria-describedby="userPassword-error"
                     autoComplete="current-password"
+                    disabled={loginInProgress}
                 />
 
                 <button
@@ -121,6 +130,7 @@ function LoginForm() {
                     className="password-toggle-btn"
                     onClick={() => setShowPassword(prev => !prev)}
                     aria-label={showPassword ? "Hide password" : "Show password"}
+                    disabled={loginInProgress}
                 >
                     {showPassword ? <PasswordEyeClosed /> : <PasswordEyeOpen />}
                 </button>
@@ -131,12 +141,12 @@ function LoginForm() {
                     {errors.userPassword}
                 </p>
             )}
-            
-            <button className="primary-btn " type="submit" disabled={loading} aria-busy={loading}>
-                {loading ? "Logging in..." : "Log in"}
+
+            <button className="primary-btn " type="submit" disabled={loginInProgress} aria-busy={loginInProgress}>
+                {loginInProgress ? "Logging in..." : "Log in"}
             </button>
 
-            {error && <p className="error-message">{error}</p>}
+            {error && <p className="error-message" role="alert">{error}</p>}
         </form>
     );
 }

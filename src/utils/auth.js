@@ -2,7 +2,7 @@ export function setAuthTokens({ token, refreshToken }) {
 
     localStorage.setItem("access_token", token);
     localStorage.setItem("refresh_token", refreshToken);
-    localStorage.setItem("token_expiry", Date.now() + 2 * 60 * 1000); //expires in 2 mins
+    localStorage.setItem("token_expiry", Date.now() + 1 * 60 * 1000); //expires in 1 mins
 
 }
 
@@ -22,23 +22,28 @@ export function clearAuthTokens() {
     localStorage.removeItem("token_expiry");
 }
 
+//changing simulated to async
+export async function simulatedRefreshToken() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const refreshToken = getRefreshToken();
 
-export function simulatedRefreshToken() {
+            if (!refreshToken) {
+                return resolve(null);
+            }
 
-    const refreshToken = getRefreshToken();
+            const newAccessToken = "access_" + Math.random().toString(36).slice(2);
 
-    if (!refreshToken) {
-        return null;
-    }
+            //updated to 3 mins
+            const newExpiry = Date.now() + 3 * 60 * 1000;
 
-    const newAccessToken = "access_" + Math.random().toString(36).slice(2);
+            localStorage.setItem("access_token", newAccessToken);
+            localStorage.setItem("token_expiry", newExpiry);
+            console.log("Access token refreshed:", newAccessToken);
+            resolve(newAccessToken);
+        }, 100); //simulatin a small delay
+    })
 
-    const newExpiry = Date.now() + 2 * 60 * 1000;
-
-    localStorage.setItem("access_token", newAccessToken);
-    localStorage.setItem("token_expiry", newExpiry);
-    console.log("Access token refreshed:", newAccessToken);
-    return newAccessToken;
 
 }
 

@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
             setError(error.message || "Login failed. Please try again.");
             setIsAuthenticated(false);
             return false;
+
         }
 
     };
@@ -62,47 +63,51 @@ export const AuthProvider = ({ children }) => {
         setError(null);
     }
 
-    const refreshToken = useCallback(() => {
-        const newToken = simulatedRefreshToken();
-        if (newToken) {
-            setToken(newToken);
-            setIsAuthenticated(true);
-            setError(null);
-            return true;
-        }
-        else {
+    //modifying refreshToken to be async and make the refresh logic await it properly
+    const refreshToken = useCallback(async () => {
+        try {
+            const newToken = await simulatedRefreshToken();
+            if (newToken) {
+                setToken(newToken);
+                setIsAuthenticated(true);
+                setError(null);
+                return true;
+            }
+            else {
+                logout();
+                return false;
+            }
+        } catch (error) {
+            console.error("Refresh token failure :" + error)
             logout();
             return false;
         }
+
     }, []);
 
 
-    //On mount: load token from localStorage and update states
+    //Init auth check On mount: load token from localStorage and update states
 
     useEffect(() => {
-        const existingToken = getAccessToken();
-        const expiry = getTokenExpiry();
+        const initializeAuth = async () => {
+            const existingToken = getAccessToken();
+            const expiry = getTokenExpiry();
 
-        if (existingToken && expiry && Date.now() < expiry) {
-            setToken(existingToken);
-            setIsAuthenticated(true);
-        }
-        else if (existingToken && expiry && Date.now() >= expiry) {
-            console.log("checking token availability in storage and refreshing");
-
-            try {
-                const refreshed = refreshToken();
-                if (!refreshed) {
-                    logout();
-                }
-            } catch (error) {
-                console.error("Error while refreshing token : ", error);
+            if (existingToken && expiry && Date.now() < expiry) {
+                setToken(existingToken);
+                setIsAuthenticated(true);
+            }
+            else if (existingToken && expiry && Date.now() >= expiry) {
+                console.log("checking token availability in storage and refreshing");
+                await refreshToken();
+            }
+            else {
                 logout();
             }
 
+            setLoading(false);
         }
-        setLoading(false);
-
+        initializeAuth();
 
     }, [refreshToken]);
 
@@ -125,6 +130,7 @@ export const AuthProvider = ({ children }) => {
             clearInterval(interval);
         }
     }, [token, refreshToken]);
+
 
 
     const authValues = {

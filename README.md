@@ -1,11 +1,13 @@
 # 🛒 RunwayCart — Modern Authentication UI for E-Commerce
 
+
 **RunwayCart** is a sleek, production-style authentication interface built with **React + Vite**, designed for an e-commerce experience in progress. It showcases how to implement secure, scalable, and user-friendly auth flows using real API integration — all wrapped in a clean, dark-themed UI.
 
 
 ## 🚀 Live Demo
  
-> _Coming soon – Deployment in progress_
+> https://runwaycart.vercel.app/
+
 
 ---
 
@@ -21,13 +23,13 @@
 ## ✨ Features
 
 - 🔐 **JWT Authentication**  
-  Integrates with `https://dummyjson.com/auth/login` for real credential-based login. Stores JWT securely in `localStorage`.
+    Integrates with `https://dummyjson.com/auth/login` for real credential-based login. Stores JWT securely in `localStorage`.
   
 - 🔄 **Token Expiry & Refresh Simulation**  
-  Tokens automatically expire in 2 minutes and are refreshed using a simulated mechanism to emulate production behavior.
+    Tokens automatically expire in 2 minutes and are refreshed using a simulated mechanism to emulate production behavior.
 
 - 🔒 **Protected Routes**  
-  Authenticated users can access `/home`; others are redirected to the login screen, preserving route security.
+    Authenticated users can access `/home`; others are redirected to the login screen, preserving route security.
 
 - 🧠 **Accessible Login Modal**  
   - Implemented using **React Portals** for rendering outside the DOM hierarchy.
@@ -45,10 +47,16 @@
   - Fully mobile-ready with scalable typography and components.
 
 - 🚧 **404 Not Found Page**  
-  A custom 404 page that detects authentication state:  
+    A custom 404 page that detects authentication state:  
   - 🔒 If the user is logged in → redirects to `/home`  
   - 🔓 If not logged in → redirects to `/`  
-  Helps users recover gracefully from dead ends with tailored navigation.
+    Helps users recover gracefully from dead ends with tailored navigation.
+
+- 🛡️ AuthGuard Component
+    Ensures no routes are rendered until the authentication status is fully resolved,
+    improving UX with a loading state during app initialization.
+    Additionally, it automatically redirects logged-in users away from the public root path (/) to the authenticated dashboard (/home), streamlining navigation and preventing unnecessary access to the welcome screen once authenticated.
+
 
 ---
 
@@ -68,6 +76,8 @@
 📦 src
 ├── assets/           (planned)
 ├── components
+│   ├── auth
+│   │   └── AuthGuard.jsx
 │   ├── forms
 │   │   └── LoginForm.jsx
 │   ├── Home/         (planned)
@@ -112,16 +122,17 @@
 
 ### 🧭 Dynamic 404 Handling
 
-    The app includes a custom 404 page that adapts dynamically based on the user's authentication state:
+The app includes a custom 404 page that adapts dynamically based on the user's authentication state:
     
-  - If a logged-in user hits a bad route, they’re guided back to the dashboard (`/home`)
-  - If a guest user encounters a dead-end, they’re redirected to the main page (`/`)
+- If a logged-in user hits a bad route, they’re guided back to the dashboard (`/home`)
+- If a guest user encounters a dead-end, they’re redirected to the main page (`/`)
   
-    This improves the overall navigation experience and ensures users are never stuck.
+This improves the overall navigation experience and ensures users are never stuck.
 
 ---
 
 ## 🧪 How to Run Locally
+
 
 1. **Clone the repo**
    ```bash
@@ -130,15 +141,18 @@
    ```
 
 2. **Install dependencies**
-   npm install
+
+    npm install
 
 3. **Start the app**
+
   - npm run dev
   - Open http://localhost:5173 in your browser
 
 4. **Login credentials**
-   username: emilys
-   password: emilyspass
+
+    username: emilys
+    password: emilyspass
 
 
 📌 Notes
@@ -154,21 +168,23 @@
 - 🔧 **Backend Integration with Spring Boot**  
   Replace DummyJSON with a secure backend, leveraging microservice architecture.
 
-- 🔐 **Secure JWT Storage**  
-  Migrate from `localStorage` to secure, HTTP-only cookies.
+ - 🔐 **Secure JWT Storage**
+      Migrate from `localStorage` to secure, HTTP-only cookies.
 
-- 🛂 **Role-Based Access Control (RBAC)**  
-  Introduce admin/user roles with protected routes and UI separation.
+ - 🔄 **Multi-Tab Auth Sync**
+      Implement `handleStorage` to synchronize login/logout state across multiple tabs using the `storage` event.
 
-- 🧩 **Expanded Auth Features**  
-  Add sign-up, forgot password, and reset password workflows.
+ - 🛂 **Role-Based Access Control (RBAC)**
+      Introduce admin/user roles with protected routes and UI separation.
 
-- 🧪 **Testing & CI/CD**  
-  Add Jest + RTL + MSW for test coverage, and GitHub Actions for CI/CD automation.
+ - 🧩 **Expanded Auth Features**  
+      Add sign-up, forgot password, and reset password workflows.
 
-- 📱 **Enhanced UX & Accessibility**  
-  Add keyboard navigation, focus trapping, and mobile interaction improvements.
+ - 🧪 **Testing & CI/CD**  
+      Add Jest + RTL + MSW for test coverage, and GitHub Actions for CI/CD automation.
 
-- 📦 **Deployment & Hosting**  
-  Containerize with Docker Compose and deploy full stack (Vercel, AWS, Render, etc.) with HTTPS.
+ - 📱 **Enhanced UX & Accessibility**  
+      Add keyboard navigation, focus trapping, and mobile interaction improvements.
 
+ - 📦 **Deployment & Hosting**  
+      Containerize with Docker Compose and deploy full stack (Vercel, AWS, Render) with HTTPS.

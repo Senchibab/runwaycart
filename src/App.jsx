@@ -1,7 +1,8 @@
 import './styles/App.css';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import AppRoutes from './routes/AppRoutes';
+import AuthGuard from './components/auth/AuthGuard';
+
 
 function App() {
 
@@ -9,7 +10,7 @@ function App() {
 
     <BrowserRouter>
       <AuthProvider>
-        <AppRoutes />
+        <AuthGuard />
       </AuthProvider>
     </BrowserRouter>
 

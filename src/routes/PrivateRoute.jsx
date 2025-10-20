@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Loader from '../components/ui/Loader';
 
 
 function PrivateRoute({ children }) {
@@ -7,7 +8,7 @@ function PrivateRoute({ children }) {
     const { isAuthenticated, loading } = useAuth();
 
     if (loading) {
-        return <p>Loading...</p>
+        return <Loader text="Authenticating user..." />
     }
 
     return isAuthenticated ? children : <Navigate to="/" replace />;

@@ -2,6 +2,7 @@ import AppRoutes from '../../routes/AppRoutes';
 import { useAuth } from '../../context/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import Loader from '../ui/Loader';
 
 function AuthGuard() {
 
@@ -20,8 +21,9 @@ function AuthGuard() {
 
     }, [loading, isAuthenticated, nav, location.pathname])
 
+    // 
     if (loading) {
-        return <p style={{ textAlign: 'center', marginTop: '2rem' }}>Loading authentication...</p>
+        return <Loader text="Verifying session..." />
     }
 
     return <AppRoutes />

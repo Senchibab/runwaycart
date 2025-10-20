@@ -135,7 +135,6 @@ function LoginForm() {
                     {showPassword ? <PasswordEyeClosed /> : <PasswordEyeOpen />}
                 </button>
             </div>
-
             {errors.userPassword && (
                 <p id="userPassword-error" className="error-message">
                     {errors.userPassword}
@@ -143,7 +142,13 @@ function LoginForm() {
             )}
 
             <button className="primary-btn " type="submit" disabled={loginInProgress} aria-busy={loginInProgress}>
-                {loginInProgress ? "Logging in..." : "Log in"}
+                {loginInProgress ? (
+                    <>
+                        <span className="mini-spinner" aria-hidden="true">
+                        </span>
+                        Logging in...
+                    </>
+                ) : ("Log in")}
             </button>
 
             {error && <p className="error-message" role="alert">{error}</p>}

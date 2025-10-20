@@ -90,22 +90,28 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const initializeAuth = async () => {
-            const existingToken = getAccessToken();
-            const expiry = getTokenExpiry();
+            try {
+                const existingToken = getAccessToken();
+                const expiry = getTokenExpiry();
 
-            if (existingToken && expiry && Date.now() < expiry) {
-                setToken(existingToken);
-                setIsAuthenticated(true);
-            }
-            else if (existingToken && expiry && Date.now() >= expiry) {
-                console.log("checking token availability in storage and refreshing");
-                await refreshToken();
-            }
-            else {
+                if (existingToken && expiry && Date.now() < expiry) {
+                    setToken(existingToken);
+                    setIsAuthenticated(true);
+                }
+                else if (existingToken && expiry && Date.now() >= expiry) {
+                    console.log("checking token availability in storage and refreshing");
+                    await refreshToken();
+                }
+                else {
+                    logout();
+                }
+            } catch (error) {
+                console.error("Auth Init failed :", error);
                 logout();
             }
-
-            setLoading(false);
+            finally {
+                setLoading(false);
+            }
         }
         initializeAuth();
 
